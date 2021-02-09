@@ -3,8 +3,8 @@ library(data.table)
 
 
 for (i0 in 1:1) {
-  base_pasada <- "D:/R-Perci/control-de-calidad/Archivo CSV - 30 enero"
-  base_actual_acumulada <- "D:/R-Perci/control-de-calidad/Archivo CSV - 02 febrero"
+  base_pasada <- "D:/R-Perci/control-de-calidad/Archivo CSV - 08 febrero"
+  base_actual_acumulada <- "D:/R-Perci/control-de-calidad/Archivo CSV - 09 febrero"
   
   ##################### cargando códigos de base pasada ########################
   base01_past <- data.frame(x=dir(print(base_pasada)))
@@ -21,7 +21,7 @@ for (i0 in 1:1) {
 
 for (i in 1:nrow(base03)) {
 
-  setwd("D:/R-Perci/control-de-calidad/Archivo CSV - 02 febrero")
+  setwd("D:/R-Perci/control-de-calidad/Archivo CSV - 09 febrero")
   Mod01_newcod <- read.csv2(as.character(base03$x[i])) 
   if(i==3){names(Mod01_newcod)[282] <- "X_submission__id"}
   assign(paste("Mod01_newcod", i,sep = "_"), Mod01_newcod)
@@ -48,8 +48,8 @@ for (r in 1:nrow(reg_duplicados)) {
 }
 
 
-write.table(reg_duplica_newcod, file="Administrativo - Duplicados - 02 febrero.csv", sep = ";", row.names = FALSE)
-write.table(reg_comparados, file="Administrativo - Duplicados_Comparados - 02 febrero.csv", sep = ";", row.names = FALSE)
+write.table(reg_duplica_newcod, file="Administrativo - Duplicados - 09 febrero.csv", sep = ";", row.names = FALSE)
+write.table(reg_comparados, file="Administrativo - Duplicados_Comparados - 09 febrero.csv", sep = ";", row.names = FALSE)
 
 
 #######################################################################
@@ -65,7 +65,7 @@ fun01 <- function() {
                               | (Mod01_newcod$p10 == 2 & Mod01_newcod$p11!= ""), 1, 0)
   reporte <- Mod01_newcod %>% filter(very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p10 =1 then p11 ≠ ∅; If p10 = 2 then p11 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p10 =1 then p11 ≠ ∅; If p10 = 2 then p11 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -78,12 +78,12 @@ fun01()
 ###If p12_0 = 1 then p13 y p14 = ∅; If p12_1, p12_2, p12_3, p12_4 o p12_5 = 1 then p13 y p14 ≠ ∅ 
 
 fun02 <- function() {
-  Mod01_newcod$very <- ifelse((Mod01_newcod$p12.0 == 1 & (!is.na(Mod01_newcod$p13) | !is.na(Mod01_newcod$p14))) 
-                              | ((Mod01_newcod$p12.1 == 1 | Mod01_newcod$p12.2 == 1 |Mod01_newcod$p12.3 == 1 |Mod01_newcod$p12.4 == 1 |Mod01_newcod$p12.5 == 1) & (is.na(Mod01_newcod$p13) | is.na(Mod01_newcod$p14))), 1, 0)
+  Mod01_newcod$very <- ifelse((Mod01_newcod$p12_0 == 1 & (!is.na(Mod01_newcod$p13) | !is.na(Mod01_newcod$p14))) 
+                              | ((Mod01_newcod$p12_1 == 1 | Mod01_newcod$p12_2 == 1 |Mod01_newcod$p12_3 == 1 |Mod01_newcod$p12_4 == 1 |Mod01_newcod$p12_5 == 1) & (is.na(Mod01_newcod$p13) | is.na(Mod01_newcod$p14))), 1, 0)
   reporte <- Mod01_newcod %>% filter(very == 1)
   
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p12_0 = 1 then p13 y p14 = ∅; If p12_1, p12_2, p12_3, p12_4 o p12_5 = 1 then p13 y p14 ≠ ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p12_0 = 1 then p13 y p14 = ∅; If p12_1, p12_2, p12_3, p12_4 o p12_5 = 1 then p13 y p14 ≠ ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -96,12 +96,12 @@ fun02()
 ###If p15_0 = 1 then p16 y p17 = ∅; If p15_1, p15_2, p15_3, p15_4, p15_5 o p15_6 = 1 then p16 y p17 ≠ ∅ 
 
 fun03 <- function() {
-  Mod01_newcod$very <- ifelse((Mod01_newcod$p15.0 == 1 & (Mod01_newcod$p16 != "" | !is.na(Mod01_newcod$p17))) 
-                              | ((Mod01_newcod$p15.1 == 1 | Mod01_newcod$p15.2 == 1 |Mod01_newcod$p15.3 == 1 |Mod01_newcod$p15.4 == 1 |Mod01_newcod$p15.5 == 1 |Mod01_newcod$p15.6 == 1) & (Mod01_newcod$p16 == "" | is.na(Mod01_newcod$p17))), 1, 0)
+  Mod01_newcod$very <- ifelse((Mod01_newcod$p15_0 == 1 & (Mod01_newcod$p16 != "" | !is.na(Mod01_newcod$p17))) 
+                              | ((Mod01_newcod$p15_1 == 1 | Mod01_newcod$p15_2 == 1 |Mod01_newcod$p15_3 == 1 |Mod01_newcod$p15_4 == 1 |Mod01_newcod$p15_5 == 1 |Mod01_newcod$p15_6 == 1) & (Mod01_newcod$p16 == "" | is.na(Mod01_newcod$p17))), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p15_0 = 1 then p16 y p17 = ∅; If p15_1, p15_2, p15_3, p15_4, p15_5 o p15_6 = 1 then p16 y p17 ≠ ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p15_0 = 1 then p16 y p17 = ∅; If p15_1, p15_2, p15_3, p15_4, p15_5 o p15_6 = 1 then p16 y p17 ≠ ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -115,12 +115,12 @@ fun03()
 ###If p16_1 = 1 then p17 ≠ ∅; If p16_0, p16_2, p16_3 o p16_4 = 1 then p17 = ∅ 
 
 fun04 <- function() {
-  Mod01_newcod$very <- ifelse((Mod01_newcod$p16.1 == 1 & is.na(Mod01_newcod$p17)) 
-                              | ((Mod01_newcod$p16.0 == 1 | Mod01_newcod$p16.2 == 1 |Mod01_newcod$p16.3 == 1 |Mod01_newcod$p16.4 == 1) & !is.na(Mod01_newcod$p17)), 1, 0)
+  Mod01_newcod$very <- ifelse((Mod01_newcod$p16_1 == 1 & is.na(Mod01_newcod$p17)) 
+                              | ((Mod01_newcod$p16_0 == 1 | Mod01_newcod$p16_2 == 1 |Mod01_newcod$p16_3 == 1 |Mod01_newcod$p16_4 == 1) & !is.na(Mod01_newcod$p17)), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p16_1 = 1 then p17 ≠ ∅; If p16_0, p16_2, p16_3 o p16_4 = 1 then p17 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p16_1 = 1 then p17 ≠ ∅; If p16_0, p16_2, p16_3 o p16_4 = 1 then p17 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -139,7 +139,7 @@ fun05 <- function() {
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p19 = 1 then p20_1, p20_2, p20_3, p20_4 y p20_5 ≠ ∅; If p19 = 2 then p20_1, p20_2, p20_3, p20_4 y p20_5 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p19 = 1 then p20_1, p20_2, p20_3, p20_4 y p20_5 ≠ ∅; If p19 = 2 then p20_1, p20_2, p20_3, p20_4 y p20_5 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -158,7 +158,7 @@ fun06 <- function() {
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p21 = 1 then p22_1, p22_2 y p22_3 ≠ ∅; If p21 = 2 then p22_1, p22_2 y p22_3 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p21 = 1 then p22_1, p22_2 y p22_3 ≠ ∅; If p21 = 2 then p22_1, p22_2 y p22_3 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -180,7 +180,7 @@ fun07 <- function() {
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
 
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p23 = 1 then p24, p25, p26, p27, p28 y p29 ≠ ∅; If p23 = 2 then p24, p25, p26, p27, p28 y p29 = ∅  - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p23 = 1 then p24, p25, p26, p27, p28 y p29 ≠ ∅; If p23 = 2 then p24, p25, p26, p27, p28 y p29 = ∅  - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -197,7 +197,7 @@ fun08 <- function() {
                               | (Mod01_newcod$p25 == 2 & (!is.na(Mod01_newcod$p26) | !is.na(Mod01_newcod$p27) | Mod01_newcod$p28 != "")), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p25 = 1 then p26, p27 y p28 ≠ ∅; If p25 = 2 then p26, p27 y p28 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p25 = 1 then p26, p27 y p28 ≠ ∅; If p25 = 2 then p26, p27 y p28 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -213,7 +213,7 @@ fun09 <- function() {
                                   | (Mod01_newcod$p27 == 2 & Mod01_newcod$p28 != ""), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p27 = 1 then p28 ≠ ∅; If p27 = 2 then p28 = ∅  - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p27 = 1 then p28 ≠ ∅; If p27 = 2 then p28 = ∅  - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -231,7 +231,7 @@ fun10 <- function() {
                               | (Mod01_newcod$p30 == 2 & (Mod01_newcod$p31 != "" | Mod01_newcod$p32 != "")), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p30 = 1 then p31 y p32 ≠ ∅; If p30 = 2 then p31 y p32 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p30 = 1 then p31 y p32 ≠ ∅; If p30 = 2 then p31 y p32 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -248,7 +248,7 @@ fun11 <- function() {
                               | ((Mod01_newcod$p34 == 3 | Mod01_newcod$p34 == 4) & (Mod01_newcod$p35 == "" | is.na(Mod01_newcod$p36))), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p30 = 1 then p31 y p32 ≠ ∅; If p30 = 2 then p31 y p32 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p30 = 1 then p31 y p32 ≠ ∅; If p30 = 2 then p31 y p32 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -270,7 +270,7 @@ fun12 <- function() {
                               | (Mod01_newcod_0_1$p38 == 2 & (Mod01_newcod_0_1$p38_1 != "" | Mod01_newcod_0_1$p38_2 != "" | !is.na(Mod01_newcod_0_1$p38_3) | !is.na(Mod01_newcod_0_1$p38_4_1) | !is.na(Mod01_newcod_0_1$p38_4_2))), 1, 0)
   reporte <- Mod01_newcod_0_1 %>% filter(Mod01_newcod_0_1$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p38 = 1 then p38_1, p38_2, p38_3, p38_4_1 y p38_4_2 ≠ ∅; If p38 = 2 then p38_1, p38_2, p38_3, p38_4_1 y p38_4_2 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p38 = 1 then p38_1, p38_2, p38_3, p38_4_1 y p38_4_2 ≠ ∅; If p38 = 2 then p38_1, p38_2, p38_3, p38_4_1 y p38_4_2 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -287,7 +287,7 @@ fun13 <- function() {
                             | (Mod01_newcod_1$p38_4_2 == 0 & Mod01_newcod_1$p38_5 != ""),1 ,0)
   reporte <- Mod01_newcod_1 %>% filter(Mod01_newcod_1$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p38_4_2 >= 1 then p38_5 ≠ ∅; If p38_4_2 = 0 then p38_5 = ∅  - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p38_4_2 >= 1 then p38_5 ≠ ∅; If p38_4_2 = 0 then p38_5 = ∅  - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -305,7 +305,7 @@ fun14 <- function() {
                                   | (Mod01_newcod_0_2$p39 == 2 & (Mod01_newcod_0_2$p39_1 != "" | Mod01_newcod_0_2$p39_2 != "" | !is.na(Mod01_newcod_0_2$p39_3) | !is.na(Mod01_newcod_0_2$p39_4_1) | !is.na(Mod01_newcod_0_2$p39_4_2) | !is.na(Mod01_newcod_0_2$p39_4_3))), 1, 0)
   reporte <- Mod01_newcod_0_2 %>% filter(Mod01_newcod_0_2$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p39 = 1 then p39_1, p39_2, p39_3 y p39_4 ≠ ∅; If p39 = 2 then p39_1, p39_2, p39_3 y p39_4 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p39 = 1 then p39_1, p39_2, p39_3 y p39_4 ≠ ∅; If p39 = 2 then p39_1, p39_2, p39_3 y p39_4 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -325,7 +325,7 @@ fun15 <- function() {
                               | (Mod01_newcod$p40_1_1 == 2 & (!is.na(Mod01_newcod$p40_1_2) | Mod01_newcod$p40_1_3 != "")), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p40_1_1 = 1 then p40_1_2 y p40_1_3 ≠ ∅; If p40_1_1 = 2 then p40_1_2 y p40_1_3 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p40_1_1 = 1 then p40_1_2 y p40_1_3 ≠ ∅; If p40_1_1 = 2 then p40_1_2 y p40_1_3 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
@@ -341,7 +341,7 @@ fun16 <- function() {
                               | (Mod01_newcod$p40_2_1 == 2 & (!is.na(Mod01_newcod$p40_2_2) | Mod01_newcod$p40_2_3 != "")), 1, 0)
   reporte <- Mod01_newcod %>% filter(Mod01_newcod$very == 1)
   if (nrow(reporte) > 0) {
-    write.table(reporte, file="Administrativo - If p40_2_1 = 1 then p40_2_2 y p40_2_3 ≠ ∅; If p40_2_1 = 2 then p40_2_2 y p40_2_3 = ∅ - 02 febrero.csv", sep = ";", row.names = FALSE)
+    write.table(reporte, file="Administrativo - If p40_2_1 = 1 then p40_2_2 y p40_2_3 ≠ ∅; If p40_2_1 = 2 then p40_2_2 y p40_2_3 = ∅ - 09 febrero.csv", sep = ";", row.names = FALSE)
   } else {
     print(nrow(reporte))
   }
